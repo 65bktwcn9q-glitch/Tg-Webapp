@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deutsch Flow — Telegram Web App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app" data-theme="dark">
+      <header class="topbar">
+        <div class="topbar__left">
+          <div class="brand">
+            <span class="brand__logo">DF</span>
+            <div>
+              <h1>Deutsch Flow</h1>
+              <p>Telegram Web App для изучения немецкого с DeepSeek AI</p>
+            </div>
+          </div>
+          <div class="topbar__status">
+            <span class="status-pill" id="vip-status">Free доступ</span>
+            <span class="status-pill muted" id="ads-status">Реклама: вкл.</span>
+          </div>
+        </div>
+        <div class="topbar__actions">
+          <button class="ghost" id="open-support">Поддержка</button>
+          <button class="ghost" id="open-terms">Условия</button>
+          <button class="toggle" id="theme-toggle" aria-label="Переключить тему">
+            <span>Тема</span>
+            <span class="toggle__indicator"></span>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero__content">
+            <div class="hero__headline">
+              <span class="pill">100% AI • DeepSeek • Персонализация</span>
+              <h2>Учись говорить по-немецки в формате мини-уроков</h2>
+              <p>
+                Интеллектуальные диалоги, мгновенная проверка произношения, адаптивные планы и умные
+                лимиты, чтобы обучение было устойчивым, а не хаотичным.
+              </p>
+            </div>
+            <div class="hero__actions">
+              <button class="primary" id="start-lesson">Начать урок</button>
+              <button class="secondary" id="open-vip">Получить VIP</button>
+            </div>
+            <div class="hero__stats">
+              <div>
+                <h3 id="daily-limit">12</h3>
+                <span>Уроков/день по лимиту</span>
+              </div>
+              <div>
+                <h3 id="ai-accuracy">96%</h3>
+                <span>Точность оценивания речи</span>
+              </div>
+              <div>
+                <h3 id="personal-tracks">4</h3>
+                <span>Персональные треки</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero__panel">
+            <div class="card card--focus">
+              <h4>Ваш персональный фокус</h4>
+              <p>Выберите цель, чтобы DeepSeek построил индивидуальную программу.</p>
+              <div class="focus-grid">
+                <button class="chip active" data-focus="travel">Путешествия</button>
+                <button class="chip" data-focus="work">Работа</button>
+                <button class="chip" data-focus="exam">Экзамены</button>
+                <button class="chip" data-focus="culture">Культура</button>
+              </div>
+              <div class="progress">
+                <span>Прогресс недели</span>
+                <div class="progress__bar">
+                  <div class="progress__value" id="week-progress" style="width: 68%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card card--glass">
+              <h4>DeepSeek AI</h4>
+              <p>
+                Диалоги строятся на модели DeepSeek: она подбирает лексику, скорость и сложность
+                под ваш уровень.
+              </p>
+              <ul class="list">
+                <li>Сценарии с эмоциями и ролями</li>
+                <li>Мгновенная обратная связь</li>
+                <li>Рекомендации по темпам</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>AI помощник</h4>
+              <p>Задайте вопрос по грамматике или попросите пример диалога.</p>
+              <div class="ai-helper">
+                <input
+                  class="ai-input"
+                  id="ai-prompt"
+                  type="text"
+                  placeholder="Например: объясни Perfekt для gehen"
+                />
+                <button class="ghost" id="ask-ai">Спросить</button>
+              </div>
+              <div class="ai-response" id="ai-response">Ответ появится здесь.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid" id="learning">
+          <div class="section-header">
+            <h3>Умные режимы обучения</h3>
+            <p>Мини-уроки, разговорная практика, словари, подкасты — всё в одном потоке.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>Диалоговый тренажёр</h4>
+              <p>Рольовые сценарии: кафе, собеседование, поездка. AI оценивает грамматику и ритм.</p>
+              <button class="ghost" data-mode="dialog">Запустить</button>
+            </article>
+            <article class="card">
+              <h4>DeepSpeak Voice</h4>
+              <p>Проверка произношения с рекомендациями, где поставить ударение.</p>
+              <button class="ghost" data-mode="voice">Проверить голос</button>
+            </article>
+            <article class="card">
+              <h4>Карточки слов</h4>
+              <p>Лимиты на новые слова в день, чтобы не перегружать память.</p>
+              <button class="ghost" data-mode="cards">Открыть</button>
+            </article>
+            <article class="card">
+              <h4>Контекстные подкасты</h4>
+              <p>Слушайте темы по вашим интересам, AI генерирует транскрипт.</p>
+              <button class="ghost" data-mode="podcast">Слушать</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="profile">
+          <div class="section-header">
+            <h3>Профиль и прогресс</h3>
+            <p>Ваши цели, уровень и достижение недельных целей.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4 id="profile-name">Профиль</h4>
+              <p id="profile-level">Уровень: —</p>
+              <p id="profile-goal">Цель: —</p>
+              <span class="status-line" id="profile-locale">Язык: —</span>
+            </article>
+            <article class="card">
+              <h4>Стрик и дисциплина</h4>
+              <p>Количество дней подряд, когда вы учились.</p>
+              <div class="progress">
+                <span id="profile-streak">Стрик: 0 дней</span>
+                <div class="progress__bar">
+                  <div class="progress__value" id="streak-progress" style="width: 0%"></div>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <h4>Рекомендации AI</h4>
+              <p>DeepSeek предлагает микро-цели на день: 15 минут, 8 карточек, 1 диалог.</p>
+              <button class="ghost" id="open-reco">Посмотреть</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="limits">
+          <div class="section-header">
+            <h3>Лимиты и устойчивость</h3>
+            <p>Контроль темпа обучения с предупреждениями и мягкими уведомлениями.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>Дневной лимит</h4>
+              <p>Рекомендуем 12 уроков, чтобы закреплять материал без выгорания.</p>
+              <div class="limit">
+                <span id="daily-count">Сегодня: 7/12</span>
+                <div class="progress__bar">
+                  <div class="progress__value" id="daily-progress" style="width: 58%"></div>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <h4>Лимит словаря</h4>
+              <p>50 новых слов в неделю. При превышении — автоматический перерыв.</p>
+              <div class="limit">
+                <span id="weekly-count">Неделя: 34/50</span>
+                <div class="progress__bar">
+                  <div class="progress__value" id="weekly-progress" style="width: 68%"></div>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <h4>Персональные каникулы</h4>
+              <p>Запланируйте паузу — AI мягко снизит нагрузку и пришлёт напоминание.</p>
+              <button class="ghost" id="schedule-break">Запланировать</button>
+              <button class="ghost" id="resume-learning">Вернуться к занятиям</button>
+              <span class="status-line" id="break-status">Перерыв не активен</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="monetization">
+          <div class="section-header">
+            <h3>Монетизация и реклама</h3>
+            <p>Прозрачные тарифы, VIP доступ, нативная реклама без раздражения.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>Free + Ads</h4>
+              <p>Доступ к основным урокам, реклама между сессиями, базовые лимиты.</p>
+              <button class="ghost" id="toggle-ads">Показать слот рекламы</button>
+              <div class="ad-slot" id="ad-slot">Реклама загружается...</div>
+              <span class="status-line" id="ads-line">Реклама включена</span>
+            </article>
+            <article class="card highlight">
+              <h4>VIP</h4>
+              <p>Нет рекламы, расширенные лимиты, приоритетные сценарии, аналитика.</p>
+              <button class="primary" id="pay-vip">Оплатить VIP</button>
+            </article>
+            <article class="card">
+              <h4>Платёжный шлюз</h4>
+              <p>Поддержка Telegram Payments, Apple Pay, Google Pay, карт.</p>
+              <button class="ghost" id="open-payments">Показать статусы</button>
+              <ul class="list" id="payments-list"></ul>
+            </article>
+            <article class="card">
+              <h4>Реферальная система</h4>
+              <p>Пригласите 10 друзей и получите VIP на месяц.</p>
+              <div class="progress">
+                <span id="referral-count">Друзья: 0/10</span>
+                <div class="progress__bar">
+                  <div class="progress__value" id="referral-progress" style="width: 0%"></div>
+                </div>
+              </div>
+              <button class="ghost" id="invite-friend">Пригласить друга</button>
+              <span class="status-line" id="referral-reward">Награда: VIP 30 дней</span>
+            </article>
+          </div>
+          <div class="section-header">
+            <h3>Прайс лист</h3>
+            <p>VIP планы и рекламные места. Вся стоимость — прозрачна.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>VIP планы</h4>
+              <ul class="list" id="vip-pricing"></ul>
+            </article>
+            <article class="card">
+              <h4>Рекламные места</h4>
+              <ul class="list" id="ad-pricing"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="payments">
+          <div class="section-header">
+            <h3>Платёжная страница</h3>
+            <p>Оформление VIP, управление подпиской и история платежей.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>Выбор тарифа</h4>
+              <ul class="list" id="checkout-plans"></ul>
+              <button class="primary" id="checkout-start">Перейти к оплате</button>
+            </article>
+            <article class="card">
+              <h4>Статус оплаты</h4>
+              <p id="checkout-status">Ожидание выбора тарифа.</p>
+              <button class="ghost" id="checkout-reset">Сбросить</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="admin">
+          <div class="section-header">
+            <h3>Админ-панель</h3>
+            <p>Управление контентом, аналитика, модерация и витрина уроков.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>Быстрые действия</h4>
+              <p>Контроль лимитов, рекламы и глобальных настроек обучения.</p>
+              <div class="admin-actions">
+                <button class="ghost" id="admin-reset-limits">Сбросить лимиты</button>
+                <button class="ghost" id="admin-toggle-ads">Тумблер рекламы</button>
+                <button class="ghost" id="admin-refresh-metrics">Обновить метрики</button>
+              </div>
+              <span class="status-line" id="admin-status">Статус: готово к работе</span>
+            </article>
+            <article class="card">
+              <h4>Контент</h4>
+              <p>Загружайте сценарии, шаблоны уроков и обучающие миссии.</p>
+              <button class="ghost" id="open-content-admin">Открыть редактор</button>
+            </article>
+            <article class="card">
+              <h4>Аналитика</h4>
+              <p>Конверсии в VIP, LTV, retention, эффективность AI-сценариев.</p>
+              <button class="ghost" id="open-analytics">Смотреть отчёт</button>
+            </article>
+            <article class="card">
+              <h4>Модерация</h4>
+              <p>Фильтрируйте пользовательские запросы и настройте безопасность.</p>
+              <button class="ghost" id="open-moderation">Открыть очередь</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="grid" id="support">
+          <div class="section-header">
+            <h3>Поддержка и условия</h3>
+            <p>Мы рядом 24/7: ответы на вопросы, оферта и политика обучения.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h4>Поддержка</h4>
+              <p>Чат с оператором, FAQ, помощь в переносе прогресса.</p>
+              <button class="ghost" id="contact-support">Связаться</button>
+            </article>
+            <article class="card">
+              <h4>Условия использования</h4>
+              <p>Прозрачные правила, хранение данных и описание AI-оценивания.</p>
+              <button class="ghost" id="read-terms">Читать</button>
+            </article>
+            <article class="card">
+              <h4>Безопасность</h4>
+              <p>Данные шифруются, можно удалить профиль в один клик.</p>
+              <button class="ghost" id="open-security">Настроить</button>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div>
+          <strong>Deutsch Flow</strong>
+          <span>© 2024 Telegram Web App. Все права защищены. Хостинг: Vertel.</span>
+        </div>
+        <div class="footer__links">
+          <button class="ghost" id="open-privacy">Политика</button>
+          <button class="ghost" id="open-contacts">Контакты</button>
+        </div>
+      </footer>
+      <nav class="bottom-nav">
+        <button class="bottom-nav__item active" data-target="learning">Обучение</button>
+        <button class="bottom-nav__item" data-target="profile">Профиль</button>
+        <button class="bottom-nav__item" data-target="limits">Лимиты</button>
+        <button class="bottom-nav__item" data-target="monetization">VIP</button>
+        <button class="bottom-nav__item" data-target="payments">Платежи</button>
+        <button class="bottom-nav__item" data-target="support">Поддержка</button>
+      </nav>
+    </div>
+
+    <div class="sheet" id="sheet">
+      <div class="sheet__content">
+        <header>
+          <h3 id="sheet-title">Диалог с DeepSeek</h3>
+          <button class="ghost" id="close-sheet">Закрыть</button>
+        </header>
+        <p id="sheet-text">Мы готовим для вас персональную сессию.</p>
+        <button class="primary" id="confirm-sheet">Понял</button>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
