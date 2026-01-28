@@ -36,6 +36,7 @@ const aiPrompt = document.getElementById("ai-prompt");
 const aiResponse = document.getElementById("ai-response");
 const checkoutPlans = document.getElementById("checkout-plans");
 const checkoutStatus = document.getElementById("checkout-status");
+const checkoutStartButton = document.getElementById("checkout-start");
 
 const sheetContent = {
   lesson: {
@@ -273,7 +274,7 @@ const updateTheme = () => {
   const theme = app.dataset.theme === "dark" ? "light" : "dark";
   app.dataset.theme = theme;
   if (window.Telegram?.WebApp) {
-    window.Telegram.WebApp.setHeaderColor(theme === "dark" ? "#0b0c10" : "#f7f7fb");
+    window.Telegram.WebApp.setHeaderColor(theme === "dark" ? "#101420" : "#f5f6fb");
   }
 };
 
@@ -437,6 +438,31 @@ document.getElementById("ask-ai").addEventListener("click", () => {
   });
 });
 
+const markCheckoutSelection = (selectedId) => {
+  if (!checkoutPlans) return;
+  Array.from(checkoutPlans.children).forEach((item) => {
+    item.classList.toggle("active", item.dataset.plan === selectedId);
+  });
+  if (checkoutStartButton) {
+    checkoutStartButton.disabled = !selectedId;
+  }
+};
+
+if (checkoutPlans) {
+  checkoutPlans.addEventListener("click", (event) => {
+    const target = event.target.closest("li");
+    if (!target) return;
+    markCheckoutSelection(target.dataset.plan);
+    if (checkoutStatus) {
+      checkoutStatus.textContent = `Выбран тариф: ${target.textContent}`;
+    }
+  });
+}
+
+if (checkoutStartButton) {
+  checkoutStartButton.disabled = true;
+}
+
 document.getElementById("checkout-start").addEventListener("click", () => {
   if (!checkoutStatus) return;
   checkoutStatus.textContent = "Платёж в обработке...";
@@ -459,6 +485,7 @@ document.getElementById("checkout-reset").addEventListener("click", () => {
   if (checkoutStatus) {
     checkoutStatus.textContent = "Ожидание выбора тарифа.";
   }
+  markCheckoutSelection(null);
 });
 
 document.getElementById("contact-support").addEventListener("click", () => {
@@ -676,3 +703,28 @@ navButtons.forEach((button) => {
     button.classList.add("active");
   });
 });
+
+const updateActiveNav = (sectionId) => {
+  navButtons.forEach((item) => {
+    item.classList.toggle("active", item.dataset.target === sectionId);
+  });
+};
+
+const trackedSections = Array.from(navButtons)
+  .map((button) => document.getElementById(button.dataset.target))
+  .filter(Boolean);
+
+if (trackedSections.length) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) {
+        updateActiveNav(visible.target.id);
+      }
+    },
+    { rootMargin: "-30% 0px -50% 0px", threshold: [0.1, 0.4, 0.6] }
+  );
+  trackedSections.forEach((section) => observer.observe(section));
+}
