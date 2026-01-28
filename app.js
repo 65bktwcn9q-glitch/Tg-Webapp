@@ -37,7 +37,7 @@ const aiResponse = document.getElementById("ai-response");
 
 const sheetContent = {
   lesson: {
-    title: "Диалог с DeepSeek",
+    title: "Диалог с NewGen AI",
     text: "Новая сессия подготовлена: тема — разговор в аэропорту. Готовы?",
   },
   vip: {
@@ -46,7 +46,7 @@ const sheetContent = {
   },
   support: {
     title: "Поддержка",
-    text: "Напишите нам в Telegram: @deutschflow_support или оставьте запрос.",
+    text: "Напишите нам в Telegram: @weaponnsz или оставьте запрос.",
   },
   terms: {
     title: "Условия",
