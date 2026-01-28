@@ -13,18 +13,20 @@
     />
   </head>
   <body>
-    <div class="app" data-theme="light">
+    <div class="app" data-theme="dark">
       <header class="topbar">
-        <div class="brand">
-          <span class="brand__logo">DF</span>
-          <div>
-            <h1>Deutsch Flow</h1>
-            <p>Telegram Web App для изучения немецкого с DeepSeek AI</p>
+        <div class="topbar__left">
+          <div class="brand">
+            <span class="brand__logo">DF</span>
+            <div>
+              <h1>Deutsch Flow</h1>
+              <p>Telegram Web App для изучения немецкого с DeepSeek AI</p>
+            </div>
           </div>
-        </div>
-        <div class="topbar__status">
-          <span class="status-pill" id="vip-status">Free доступ</span>
-          <span class="status-pill muted" id="ads-status">Реклама: вкл.</span>
+          <div class="topbar__status">
+            <span class="status-pill" id="vip-status">Free доступ</span>
+            <span class="status-pill muted" id="ads-status">Реклама: вкл.</span>
+          </div>
         </div>
         <div class="topbar__actions">
           <button class="ghost" id="open-support">Поддержка</button>
@@ -39,12 +41,14 @@
       <main>
         <section class="hero">
           <div class="hero__content">
-            <span class="pill">100% AI • DeepSeek • Персонализация</span>
-            <h2>Учись говорить по-немецки в формате мини-уроков</h2>
-            <p>
-              Интеллектуальные диалоги, мгновенная проверка произношения, адаптивные планы и умные
-              лимиты, чтобы обучение было устойчивым, а не хаотичным.
-            </p>
+            <div class="hero__headline">
+              <span class="pill">100% AI • DeepSeek • Персонализация</span>
+              <h2>Учись говорить по-немецки в формате мини-уроков</h2>
+              <p>
+                Интеллектуальные диалоги, мгновенная проверка произношения, адаптивные планы и умные
+                лимиты, чтобы обучение было устойчивым, а не хаотичным.
+              </p>
+            </div>
             <div class="hero__actions">
               <button class="primary" id="start-lesson">Начать урок</button>
               <button class="secondary" id="open-vip">Получить VIP</button>
@@ -65,7 +69,7 @@
             </div>
           </div>
           <div class="hero__panel">
-            <div class="card">
+            <div class="card card--focus">
               <h4>Ваш персональный фокус</h4>
               <p>Выберите цель, чтобы DeepSeek построил индивидуальную программу.</p>
               <div class="focus-grid">

@@ -92,6 +92,12 @@ const openSheet = (key) => {
   sheet.classList.add("open");
 };
 
+const showSheet = (title, text) => {
+  sheetTitle.textContent = title;
+  sheetText.textContent = text;
+  sheet.classList.add("open");
+};
+
 const closeSheet = () => sheet.classList.remove("open");
 
 const fetchJson = async (url, options = {}) => {
@@ -274,7 +280,7 @@ const updateTheme = () => {
   const theme = app.dataset.theme === "dark" ? "light" : "dark";
   app.dataset.theme = theme;
   if (window.Telegram?.WebApp) {
-    window.Telegram.WebApp.setHeaderColor(theme === "dark" ? "#101420" : "#f5f6fb");
+    window.Telegram.WebApp.setHeaderColor(theme === "dark" ? "#0b0d1a" : "#f1f2ff");
   }
 };
 
@@ -351,9 +357,7 @@ document.getElementById("open-vip").addEventListener("click", () => {
 document.getElementById("open-support").addEventListener("click", () => {
   fetchJson(`${api.content}?key=support`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
     } else {
       openSheet("support");
     }
@@ -363,9 +367,7 @@ document.getElementById("open-support").addEventListener("click", () => {
 document.getElementById("open-terms").addEventListener("click", () => {
   fetchJson(`${api.content}?key=terms`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
     } else {
       openSheet("terms");
     }
@@ -375,9 +377,7 @@ document.getElementById("open-terms").addEventListener("click", () => {
 document.getElementById("read-terms").addEventListener("click", () => {
   fetchJson(`${api.content}?key=terms`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
     } else {
       openSheet("terms");
     }
@@ -393,9 +393,7 @@ document.getElementById("schedule-break").addEventListener("click", () => {
       updateSummary(response.summary);
     }
     if (response?.message) {
-      sheetTitle.textContent = "Перерыв";
-      sheetText.textContent = response.message;
-      sheet.classList.add("open");
+      showSheet("Перерыв", response.message);
     } else {
       openSheet("break");
     }
@@ -411,9 +409,9 @@ document.getElementById("resume-learning").addEventListener("click", () => {
       updateSummary(response.summary);
     }
     if (response?.message) {
-      sheetTitle.textContent = "Возвращение";
-      sheetText.textContent = response.message;
-      sheet.classList.add("open");
+      showSheet("Возвращение", response.message);
+    } else {
+      showSheet("Возвращение", "Вы вернулись к занятиям, лимиты восстановлены.");
     }
   });
 });
@@ -541,14 +539,12 @@ document.getElementById("invite-friend").addEventListener("click", () => {
 document.getElementById("open-reco").addEventListener("click", () => {
   fetchJson(`${api.content}?key=recommendations`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
     } else {
-      sheetTitle.textContent = "Рекомендации DeepSeek";
-      sheetText.textContent =
-        "Сегодня: 15 минут практики речи, 8 карточек слов и 1 диалог с ролью.";
-      sheet.classList.add("open");
+      showSheet(
+        "Рекомендации DeepSeek",
+        "Сегодня: 15 минут практики речи, 8 карточек слов и 1 диалог с ролью."
+      );
     }
   });
 });
@@ -570,11 +566,12 @@ document.getElementById("open-payments").addEventListener("click", () => {
       paymentsList.appendChild(li);
     });
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
     } else {
-      openSheet("payments");
+      showSheet(
+        "Платёжные статусы",
+        "Платежи активны. Выберите способ, подтвердите сумму и получите VIP мгновенно."
+      );
     }
   });
 });
@@ -588,9 +585,7 @@ document.getElementById("pay-vip").addEventListener("click", () => {
       updateSummary(response.summary);
     }
     if (response?.message) {
-      sheetTitle.textContent = "VIP доступ";
-      sheetText.textContent = response.message;
-      sheet.classList.add("open");
+      showSheet("VIP доступ", response.message);
     } else {
       openSheet("vip");
     }
@@ -617,9 +612,12 @@ document.querySelectorAll("[data-mode]").forEach((button) => {
 document.getElementById("open-privacy").addEventListener("click", () => {
   fetchJson(`${api.content}?key=privacy`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
+    } else {
+      showSheet(
+        "Политика конфиденциальности",
+        "Мы используем данные только для персонализации обучения и не передаём их третьим лицам."
+      );
     }
   });
 });
@@ -627,9 +625,12 @@ document.getElementById("open-privacy").addEventListener("click", () => {
 document.getElementById("open-contacts").addEventListener("click", () => {
   fetchJson(`${api.content}?key=contacts`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
+    } else {
+      showSheet(
+        "Контакты",
+        "Email: hello@deutschflow.ai · Telegram: @deutschflow_support · Хостинг: Vertel."
+      );
     }
   });
 });
@@ -637,41 +638,55 @@ document.getElementById("open-contacts").addEventListener("click", () => {
 document.getElementById("open-security").addEventListener("click", () => {
   fetchJson(`${api.content}?key=privacy`).then((response) => {
     if (response?.title && response?.text) {
-      sheetTitle.textContent = response.title;
-      sheetText.textContent = response.text;
-      sheet.classList.add("open");
+      showSheet(response.title, response.text);
+    } else {
+      showSheet(
+        "Безопасность",
+        "Данные шифруются, доступы логируются. Вы можете удалить профиль в любой момент."
+      );
     }
   });
 });
 
 document.getElementById("open-content-admin").addEventListener("click", () => {
   fetchJson(api.adminContent).then((response) => {
-    if (!response) return;
-    sheetTitle.textContent = "Контент";
-    sheetText.textContent = response
-      .map((item) => `• ${item.title} (${item.status})`)
-      .join("\n");
-    sheet.classList.add("open");
+    if (!response) {
+      showSheet("Контент", "Список контента временно недоступен. Попробуйте позже.");
+      return;
+    }
+    showSheet(
+      "Контент",
+      response.map((item) => `• ${item.title} (${item.status})`).join("\n")
+    );
   });
 });
 
 document.getElementById("open-analytics").addEventListener("click", () => {
   fetchJson(api.adminSummary).then((response) => {
-    if (!response) return;
-    sheetTitle.textContent = "Аналитика";
-    sheetText.textContent = `Retention: ${response.retention}\nVIP конверсия: ${response.vipConversion}\nАктивные пользователи: ${response.activeUsers}\nУроков сегодня: ${response.lessonsToday}`;
-    sheet.classList.add("open");
+    if (!response) {
+      showSheet(
+        "Аналитика",
+        "Retention: 0%\nVIP конверсия: 0%\nАктивные пользователи: 0\nУроков сегодня: 0"
+      );
+      return;
+    }
+    showSheet(
+      "Аналитика",
+      `Retention: ${response.retention}\nVIP конверсия: ${response.vipConversion}\nАктивные пользователи: ${response.activeUsers}\nУроков сегодня: ${response.lessonsToday}`
+    );
   });
 });
 
 document.getElementById("open-moderation").addEventListener("click", () => {
   fetchJson(api.adminModeration).then((response) => {
-    if (!response) return;
-    sheetTitle.textContent = "Модерация";
-    sheetText.textContent = response
-      .map((item) => `• ${item.text} (${item.status})`)
-      .join("\n");
-    sheet.classList.add("open");
+    if (!response) {
+      showSheet("Модерация", "Очередь пуста. Нет запросов на проверку.");
+      return;
+    }
+    showSheet(
+      "Модерация",
+      response.map((item) => `• ${item.text} (${item.status})`).join("\n")
+    );
   });
 });
 
@@ -679,6 +694,7 @@ const telegram = window.Telegram?.WebApp;
 if (telegram) {
   telegram.ready();
   telegram.expand();
+  telegram.setHeaderColor(app.dataset.theme === "dark" ? "#0b0d1a" : "#f1f2ff");
 }
 
 const telegramUser = telegram?.initDataUnsafe?.user;
